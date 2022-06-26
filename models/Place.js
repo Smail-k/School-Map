@@ -18,6 +18,10 @@ const placeSchema = new Schema({
         type : String,
         required : true
     },
+    marker :{
+        type : String,
+        required : true 
+    },
     image :{
         type : String, 
     },

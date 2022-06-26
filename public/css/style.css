@@ -52,3 +52,29 @@ label {
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
 }
+.details{
+    text-align: center;
+}
+.table-result{
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.table-result th{
+    background-color: lightgray;
+}
+  
+.navigation{
+    text-align: center;
+} 
+button{
+    width: 20px;
+    background: transparent;
+    border-radius: 20%;
+    background-color: lightblue;
+}
+.buildings{
+    margin: 20px;
+}

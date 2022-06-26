@@ -11,14 +11,15 @@
         padding: 0;
         margin: auto;
         height: 600px;
-        width: 900px;
+        max-width: 900px;
+        min-width: 200px;
       }
     </style>
     <script src="/ajax.js"></script>
     <script src="/controller.js"></script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.23/"></script>
-    <script src="/map-service.js"></script>
+    <script src="/scripts/map-service.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript">
        require(["esri/config","esri/Map", "esri/views/SceneView","esri/Graphic","esri/layers/GraphicsLayer",], function (esriConfig,Map, MapView, Graphic, GraphicsLayer) {
@@ -47,6 +48,7 @@
                 latitude : '<%-places[i].latitude%>',
                 description : '<%-places[i].description%>',
                 image : '<%-places[i].image%>',
+                marker : '<%-places[i].marker%>'
             }
             addMarker(graphicsLayer,place,Graphic);
         '<%}%>'
@@ -54,6 +56,7 @@
         GlobalInformation(view,graphicsLayer);
         detailInfo(graphicsLayer,view,Graphic);
         zoomOn(view)
+        GlobalInformationWithHover(view,graphicsLayer)
       });
 
 
@@ -73,10 +76,21 @@
 
       <ul>
         <li><a href="#">Establishments</a></li>
-        <li><a href="#">Locaux</a></li>
         <li><a href="#">Deconnecter</a></li>
       </ul>
     </nav>
     <div id="viewDiv"></div>
+    <div class="buildings">
+      <div class="navigation">
+        <button id="plus" style="display: none;">+</button>
+        <button id="minus" style="display: none;">-</button>
+      </div>
+      
+      <div id="details" class="details">
+  
+      </div>
+    </div>
+    
+    
   </body>
 </html>

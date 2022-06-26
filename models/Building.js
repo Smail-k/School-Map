@@ -18,13 +18,16 @@ const BuildingSchema = new Schema({
         type : String,
         required : true
     },
+    marker :{
+        type : String,
+        required : true 
+    },
     image :{
         type : String, 
     },
     floors : [ {
         classroomsCount : Number,
         description : String,
-        required : true
     }],
     establishment : {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,5 +36,5 @@ const BuildingSchema = new Schema({
     } 
 });
 
-const building = mongoose.model('Building',placeSchema);
+const building = mongoose.model('Building',BuildingSchema);
 module.exports=building; 

@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const place = require("./models/Place")
 const establishmentRouter = require("./routes/EstablishmentRoute");
 const placeRouter = require("./routes/PlaceRoute");
+const buildingRouter = require("./routes/BuildingRoute");
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -28,6 +30,7 @@ app.use(express.json());
 
 app.use("/establishment",establishmentRouter);
 app.use("/place",placeRouter);
+app.use("/building",buildingRouter);
 
 
 app.get("/",(req,res)=>{
