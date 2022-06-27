@@ -1,112 +1,66 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    
-    <title><%=title %></title>
-
-    <style>
-      html,
-      body,
-      #viewDiv {
-        padding: 0;
-        margin: auto;
-        height: 600px;
-        width: 900px;
-      }
-    </style>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
-    <script src="https://js.arcgis.com/4.23/"></script>
-    <% var placesList = places;%>
-      <script type="text/javascript">
-        
-        require(["esri/config","esri/Map", "esri/views/SceneView","esri/Graphic","esri/layers/GraphicsLayer",
-        "esri/layers/FeatureLayer","dojo/on"], function (esriConfig,Map, MapView, Graphic, GraphicsLayer,FeatureLayer,on) {
-
-            esriConfig.apiKey = "AAPKde6378fdc0564c52bf3c878d29ca7e9bqt_7Tkm-7uQIlD5yN-lHJCppLGbCIwYVq8HxdhA731ilXNtW3Dth2ATZhGwQpv9D";
-
-            const map = new Map({
-              basemap: "satellite",
-
-            });
-
-            const view = new MapView({
-              map: map,
-              center: [-5.0020482,33.9899339], // Longitude, latitude
-              zoom: 17, // Zoom level
-              container: "viewDiv", // Div element
-            });
-            let graphicsLayer;
-            let point;
-            let symbol;
-            let pointGraphic;
-            let img;
-            graphicsLayer = new GraphicsLayer();
-                 '<% for(var i=0;i<places.length;i++){ %>'
-                     
-                    map.add(graphicsLayer);
-                    point = { //Create a point
-                        type: "point",
-                        longitude:  '<%- places[i].longitude%>',
-                        latitude:   '<%- places[i].latitude%>'
-                    };
-                    img = '<%- places[i].image%>'
-                    console.log(img+"---")
-                    symbol = {
-                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-                        url: img,
-                        width: "40px",
-                        height: "40px"
-                    };
-                    pointGraphic = new Graphic({
-                        geometry: point,
-                        symbol: symbol,
-                        attributes : {
-                        id : '<%- places[i]._id%>'
-                    }
-                  });
-                  
-                    graphicsLayer.add(pointGraphic);
-                    
-                    
-                '<%}%>'
-                view.on("click", function (event) {
-                  view.hitTest(event).then(function (response) {
-                    if (response.results.length) {
-                      let graphic = response.results.filter(function (result) {
-                        // check if the graphic belongs to the layer of interest
-                        return result.graphic.layer === graphicsLayer;
-                      })[0].graphic;
-
-                      // do something with the result graphic
-                      console.log(graphic.attributes);
-
-                      view.popup.autoOpenEnabled = false;
-              
-               
-                  view.popup.open({
-                    title : "emplacement",
-                  location: graphic.geometry,
-                  content : "hello",
-                      });
-                    }                
-                
-
-
-                    
-                  });
-                });
-               
-                
-                              
-                
-              });
-       
-
-    </script>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
-  <body>
-    <div id="viewDiv"></div>
-  </body>
+    <body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+          <h2 class="active">Sign in </h2>
+      
+          <!-- Icon -->
+          <div>
+            <img src="/login.jpg" class="userImage" id="icon" alt="User Icon" />
+          </div>
+      
+          <!-- Login Form -->
+        <!-- <form action="/users/login" method="POST" enctype="multipart/form-data"> -->
+          <form action="/users/login" >
+            <input type="text" id="email" name="email" placeholder="Email" required>
+            <div class="email error"></div>
+            <input type="password" name="password" id="pwd" placeholder="Password" required>
+            <div class="pwd error"></div>
+            <input type="submit" class="fadeIn fourth" value="Login">
+            <p id="message"></p>
+        </form>
+        
+      
+        </div>
+      </div>
 
+      
+</body>
+<script>
+    const form = document.querySelector("form"); 
+    form.addEventListener('submit',async (e)=>{
+        e.preventDefault(); 
+        const Emailerror = form.children[1]; 
+        const pwdError = form.children[3]; 
+
+        Emailerror.textContent="";
+        pwdError.textContent="";
+
+        const email = form.email.value; 
+        const password = form.password.value; 
+        console.log(email,password)
+
+        try {
+            const res = await fetch('/users/login',{
+                method : "POST",
+                body : JSON.stringify({email , password}),
+                headers : {'Content-type' : 'application/json'}                
+            }); 
+            const data = await res.json(); 
+            console.log(data +"+++++++");
+            Emailerror.textContent=data.email;
+            pwdError.textContent=data.password;
+            if(data.user){
+                location.assign("/establishment/establishments");
+            }  
+        } catch (error) {
+            console.log(error);
+        }
+    })
+</script>
 </html>

@@ -5,6 +5,9 @@ const place = require("./models/Place")
 const establishmentRouter = require("./routes/EstablishmentRoute");
 const placeRouter = require("./routes/PlaceRoute");
 const buildingRouter = require("./routes/BuildingRoute");
+const userRouter = require("./routes/UserRoute");
+const middlewares = require("./middleware/authMiddleware");
+
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -27,17 +30,20 @@ app.use(express.urlencoded({extended : true}));
 app.use(cookieParser()); 
 app.use(express.json());
 
+app.use("*",middlewares.getUserInfo);
 
-app.use("/establishment",establishmentRouter);
-app.use("/place",placeRouter);
-app.use("/building",buildingRouter);
+
+app.use("/establishment",middlewares.authRequire,establishmentRouter);
+app.use("/place",middlewares.authRequire,placeRouter);
+app.use("/building",middlewares.authRequire,buildingRouter);
+app.use("/users",userRouter);
 
 
 app.get("/",(req,res)=>{
-    // place.find().then((places)=>{
-    //     res.render("Home",{title : "map view",places : places});
-    // }).catch((err)=>{
-    //     res.status(500).json("erreur lors de chargement des emplacements !")
-    // })
-    res.redirect("/establishment/establishments");
+    place.find().then((places)=>{
+        res.render("Home",{title : "map view",places : places});
+    }).catch((err)=>{
+        res.status(500).json("erreur lors de chargement des emplacements !")
+    })
+    //res.redirect("/establishment/establishments");
 }); 

@@ -41,7 +41,17 @@ function addMarker(graphicsLayer,place,Graphic){
     
     graphicsLayer.add(pointGraphic);
     }
-    
+    function removeMarker(graphicsLayer) {
+      // graphicsLayer.graphics.forEach(graphic => {
+      //   console.log(graphicsLayer.graphics.length+"---------------------------")
+      //   if(graphic.attributes.id ==undefined){
+      //       graphicsLayer.graphics.length=2
+      //   }
+      // });
+      graphicsLayer.graphics.splice(2, graphicsLayer.graphics.length-1); 
+    }
+
+
     function GlobalInformation(view,graphicsLayer){
     view.on("click", function (event) { //pointer-move
     view.hitTest(event).then(function (response) {
@@ -56,6 +66,7 @@ function addMarker(graphicsLayer,place,Graphic){
       content : "<h4>"+ graphic.attributes.description+"</h4>",
       media : "/estab.png"
     });
+    view.center=graphic.geometry;
     view.zoom=17;
     view.popup.autoOpenEnabled = false;
     }                
@@ -108,8 +119,13 @@ function addMarker(graphicsLayer,place,Graphic){
     else if(graphic.attributes.floors == undefined){
       document.querySelector(".buildings").style.display = "none";
     }
-    if(graphic.attributes.id == undefined)
-      return 
+    if(graphic.attributes.id == undefined){
+      return
+    }else if(graphicsLayer.graphics.length!=2){
+      removeMarker(graphicsLayer)
+      return;
+    }
+
     let xhr = new XMLHttpRequest();
       xhr.open('get', '/place/'+graphic.attributes.id);
       xhr.send();
@@ -135,7 +151,7 @@ function addMarker(graphicsLayer,place,Graphic){
             
         }
     };
-    
+    w3_open();
 
     }                
     });
@@ -152,6 +168,9 @@ function zoomOn(view){
         }
         view.center = [dom.byId("estab").value.split(";")[0],dom.byId("estab").value.split(";")[1]];
         view.zoom=17;
+      });
+      on(dom.byId("EstabView"), "click", function(){
+          view.zoom=15;
       });
     });
 }
@@ -191,7 +210,6 @@ function loadsFloors(res){
       counter--;
     update(res.floors[counter],counter+1);
   })
-  
 }
 
 function update(res,counter) {
@@ -217,4 +235,21 @@ function update(res,counter) {
             
 
           details.innerHTML = result;
+}
+
+function getPlacesByKeyword(keyword,graphicsLayer,Graphic,view) {
+  removeMarker(graphicsLayer)
+  let xhr = new XMLHttpRequest();
+  xhr.open('get', '/place/keyword/'+keyword);
+  xhr.send();
+
+  xhr.onload = function() {
+      let res = JSON.parse(xhr.response)
+      console.log(res);
+    for (let i = 0; i < res.length; i++) {
+       addMarker(graphicsLayer,res[i],Graphic)
+    }
+    view.center=[res[0].longitude,res[0].latitude];
+    view.zoom=20;
+};
 }

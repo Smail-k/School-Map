@@ -78,3 +78,90 @@ button{
 .buildings{
     margin: 20px;
 }
+
+
+input[type=button], input[type=submit], input[type=reset]  {
+    background-color: lightgreen;
+    border: none;
+    color: white;
+    padding: 15px 80px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 15px;
+    width: 80%;
+  }
+  
+  
+  
+  input[type=text],input[type=password] {
+    background-color: white;
+    border: none;
+    color: #0d0d0d;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    width: 85%;
+    border: 2px solid #bdbcbc;
+   
+  }
+  
+  input[type=text]:focus {
+    background-color: #fff;
+    border-bottom: 2px solid #5fbae9;
+  }
+  
+  input[type=text]:placeholder {
+    color: #cccccc;
+  }
+  
+  
+  .userImage{
+      height: 100px;
+      width: 100px;
+      border-radius: 10px;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    min-height: 100%;
+    padding: 20px;
+    margin-top: 150px;
+  }
+  
+  #formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    padding: 50px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    padding: 0px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  
+
+  h2.inactive {
+    color: #cccccc;
+  }
+  
+  h2.active {
+    color: #0d0d0d;
+    margin-bottom: 20px;
+  }
+.error{
+    color: red;
+}

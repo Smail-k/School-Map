@@ -18,8 +18,10 @@
     <script src="/ajax.js"></script>
     <script src="/controller.js"></script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://js.arcgis.com/4.23/"></script>
     <script src="/scripts/map-service.js"></script>
+    <script src="/scripts/side-bar.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript">
        require(["esri/config","esri/Map", "esri/views/SceneView","esri/Graphic","esri/layers/GraphicsLayer",], function (esriConfig,Map, MapView, Graphic, GraphicsLayer) {
@@ -57,6 +59,17 @@
         detailInfo(graphicsLayer,view,Graphic);
         zoomOn(view)
         GlobalInformationWithHover(view,graphicsLayer)
+
+        document.getElementById("transport").addEventListener("click",()=>{
+          getPlacesByKeyword("bus",graphicsLayer,Graphic,view)
+        })
+        document.getElementById("biblio").addEventListener("click",()=>{
+          getPlacesByKeyword("biblio",graphicsLayer,Graphic,view)
+        })
+        document.getElementById("wc").addEventListener("click",()=>{
+          getPlacesByKeyword("toillete",graphicsLayer,Graphic,view)
+        })
+
       });
 
 
@@ -64,32 +77,44 @@
       
   </head>
   <body onload="loadEstab();">
-    <nav>
-      <h2>Schools Map</h2>
-      <div>
-        <label for="estab" id="hh">Establishment : </label>
-        <select name="estab" id="estab">
-          <option value="">--Select an Establishment--</option>
-        </select>
-      </div>
-      
-
-      <ul>
-        <li><a href="#">Establishments</a></li>
-        <li><a href="#">Deconnecter</a></li>
-      </ul>
-    </nav>
-    <div id="viewDiv"></div>
-    <div class="buildings">
-      <div class="navigation">
-        <button id="plus" style="display: none;">+</button>
-        <button id="minus" style="display: none;">-</button>
-      </div>
-      
-      <div id="details" class="details">
-  
-      </div>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button "
+      onclick="w3_close()">Close &times;</button>
+      <a href="#" class="w3-bar-item w3-button" id="transport">transport</a>
+      <a href="#" class="w3-bar-item w3-button" id="biblio">bibliotheque</a>
+      <a href="#" class="w3-bar-item w3-button" id="wc">toilettes</a>
     </div>
+    <div id="main">
+      <nav>
+        <h2>Schools Map</h2>
+        
+        <div>
+          <label for="estab">Establishment : </label>
+          <select name="estab" id="estab">
+            <option value="">--Select an Establishment--</option>
+          </select>
+        </div>
+        
+  
+        <ul>
+          <li><a href="#" id="EstabView">Establishments</a></li>
+          <li><a href="/users/logout">Deconnecter</a></li>
+        </ul>
+      </nav>
+      <div id="viewDiv"></div>
+      <div class="buildings">
+        <div class="navigation">
+          <button id="plus" style="display: none;">+</button>
+          <button id="minus" style="display: none;">-</button>
+        </div>
+        
+        <div id="details" class="details">
+    
+        </div>
+      </div>
+
+    </div>
+    
     
     
   </body>
