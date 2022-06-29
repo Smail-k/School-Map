@@ -19,6 +19,8 @@
     <script src="/controller.js"></script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <script src="https://js.arcgis.com/4.23/"></script>
     <script src="/scripts/map-service.js"></script>
     <script src="/scripts/side-bar.js"></script>
@@ -61,7 +63,7 @@
         GlobalInformationWithHover(view,graphicsLayer)
 
         document.getElementById("transport").addEventListener("click",()=>{
-          getPlacesByKeyword("bus",graphicsLayer,Graphic,view)
+          getPlacesByKeyword("station",graphicsLayer,Graphic,view)
         })
         document.getElementById("biblio").addEventListener("click",()=>{
           getPlacesByKeyword("biblio",graphicsLayer,Graphic,view)
@@ -86,7 +88,7 @@
     </div>
     <div id="main">
       <nav>
-        <h2>Schools Map</h2>
+        <h3>Schools Map</h3>
         
         <div>
           <label for="estab">Establishment : </label>
@@ -97,8 +99,10 @@
         
   
         <ul>
-          <li><a href="#" id="EstabView">Establishments</a></li>
-          <li><a href="/users/logout">Deconnecter</a></li>
+          <li><a href="#" id="EstabView">Etablissements</a></li>
+          <li class="user"><%= user.name %></li>
+          <li><a href="/users/logout"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
+          </li>
         </ul>
       </nav>
       <div id="viewDiv"></div>

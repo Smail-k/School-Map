@@ -123,6 +123,7 @@ function addMarker(graphicsLayer,place,Graphic){
       return
     }else if(graphicsLayer.graphics.length!=2){
       removeMarker(graphicsLayer)
+      w3_open();
       return;
     }
 
@@ -249,7 +250,6 @@ function getPlacesByKeyword(keyword,graphicsLayer,Graphic,view) {
     for (let i = 0; i < res.length; i++) {
        addMarker(graphicsLayer,res[i],Graphic)
     }
-    view.center=[res[0].longitude,res[0].latitude];
-    view.zoom=20;
+    //view.center=[res[0].longitude,res[0].latitude];
 };
 }

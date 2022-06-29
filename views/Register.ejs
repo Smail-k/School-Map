@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/style.css">
+      </head>
+    <body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+          <h2 class="active">Sign Up </h2>
+      
+          <!-- Icon -->
+          <div>
+            <img src="/login.jpg" class="userImage" id="icon" alt="User Icon" />
+          </div>
+      
+          <!-- Login Form -->
+        <form action="/users/register" method="POST">
+            <input type="text" id="name" name="name" placeholder="nom d'etudiant" required>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="text" id="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" id="pwd" placeholder="mot de passe" required>
+            <input type="submit" class="fadeIn fourth" value="Valider">
+        </form>
+      
+          <div id="formFooter">
+            <a class="underlineHover" href="/users/login">vous avez deja un compte ?</a>
+          </div>
+      
+        </div>
+      </div>
+</body>
+</html>

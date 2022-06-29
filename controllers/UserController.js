@@ -28,10 +28,10 @@ const addUser = (req,res)=>{
     user.save().then(()=>{
         const token = createToken(user._id);
         res.cookie("jwt",token,{ httpOnly : true, maxAge : maxAge}); 
-        res.status(200).json({user : user._id});
+        res.status(200).redirect("/users/login");
     }).catch((err)=>{
         let errors = errorHandler(err);
-        res.status(400).json(errors);
+        res.status(400).json(errorHandler(error));
     })
 }
 
@@ -59,6 +59,9 @@ const logOut_get = (req,res)=>{
 const login= (req,res)=>{
     res.render("Home",{title:"login"}); 
 }
+const register= (req,res)=>{
+    res.render("Register",{title:"register"}); 
+}
 const maxAge = 1 * 24 * 60 * 60; 
 const createToken= (id) =>{
     return jwt.sign({ id },"smail li kayn",{
@@ -70,5 +73,6 @@ module.exports = {
     addUser,
     checkUser,
     logOut_get,
-    login
+    login,
+    register
 }
