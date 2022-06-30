@@ -2,7 +2,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
     <title><%=title %></title>
 
     <style>
@@ -62,15 +64,24 @@
         zoomOn(view)
         GlobalInformationWithHover(view,graphicsLayer)
 
-        document.getElementById("transport").addEventListener("click",()=>{
-          getPlacesByKeyword("station",graphicsLayer,Graphic,view)
-        })
-        document.getElementById("biblio").addEventListener("click",()=>{
-          getPlacesByKeyword("biblio",graphicsLayer,Graphic,view)
-        })
-        document.getElementById("wc").addEventListener("click",()=>{
-          getPlacesByKeyword("toillete",graphicsLayer,Graphic,view)
-        })
+        // document.getElementById("transport").addEventListener("click",()=>{
+        //   getPlacesByKeyword("station",graphicsLayer,Graphic,view)
+        // })
+        // document.getElementById("biblio").addEventListener("click",()=>{
+        //   getPlacesByKeyword("biblio",graphicsLayer,Graphic,view)
+        // })
+        // document.getElementById("wc").addEventListener("click",()=>{
+        //   getPlacesByKeyword("toillete",graphicsLayer,Graphic,view)
+        // })
+
+        let links = document.querySelectorAll("a");
+        for (let i = 0; i < links.length; i++) {
+          links[i].addEventListener('click',()=>{
+            console.log(links[i].classList[0]+"------------")
+            getPlacesByKeyword(links[i].classList[0],graphicsLayer,Graphic,view)
+          })
+          
+        }
 
       });
 
@@ -79,45 +90,123 @@
       
   </head>
   <body onload="loadEstab();">
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-      <button class="w3-bar-item w3-button "
-      onclick="w3_close()">Close &times;</button>
-      <a href="#" class="w3-bar-item w3-button" id="transport">transport</a>
-      <a href="#" class="w3-bar-item w3-button" id="biblio">bibliotheque</a>
-      <a href="#" class="w3-bar-item w3-button" id="wc">toilettes</a>
+    <div class="sidebar close">
+      <div class="logo-details">
+        <i class='fas fa-school' style='font-size:36px'></i>
+
+        <span class="logo_name">School Map</span>
+      </div>
+      <ul class="nav-links">
+        
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class='fas fa-building'></i>
+              <span class="link_name">Locaux</span>
+            </a>
+            <i class='bx bxs-chevron-down arrow' ></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="link_name" href="#">Locaux</a></li>
+            <li><a  href="#" class="biblio">Bibliotheques</a></li>
+            <li><a  href="#" class="terrain">Terrains</a></li>
+            <li><a  href="#" class="toillete">Toilettes</a></li>
+            <li><a  href="#" class="jardin">Jardin</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="station">
+            <i class='fas fa-bus-alt'></i>
+            <span class="link_name">Transport</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="station link_name" href="#">Transport</a></li>
+          </ul>
+        </li>
+        
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class='fas fa-book-open'></i>
+              <span class="link_name">Etudes</span>
+            </a>
+            <i class='bx bxs-chevron-down arrow' ></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="etage link_name" href="#">Immeubles</a></li>
+            <li><a class="immeuble" href="#">Immeubles A</a></li>
+            <li><a class="etage" href="#">Immeubles B</a></li>
+            <li><a class="etage" href="#">Immeubles C</a></li>
+          </ul>
+        </li>
+        
+      <!-- <div class="profile-details">
+        <div class="profile-content">
+          <img src="image/profile.jpg" alt="profileImg">
+        </div>
+        <div class="name-job">
+          <div class="profile_name">Prem Shahi</div>
+          <div class="job">Web Desginer</div>
+        </div>
+        <i class='bx bx-log-out' ></i>
+      </div> -->
+    <!-- </li> -->
+  </ul>
     </div>
-    <div id="main">
-      <nav>
-        <h3>Schools Map</h3>
+    <section class="home-section">
+      <div class="">
         
-        <div>
-          <label for="estab">Establishment : </label>
-          <select name="estab" id="estab">
-            <option value="">--Select an Establishment--</option>
-          </select>
-        </div>
+        <div id="">
+          <nav>
+            <!-- <i class='bx bx-menu' ></i> -->
+            <h3>School Map</h3>
+            
+            <div>
+              <label for="estab">Establishment : </label>
+              <select name="estab" id="estab">
+                <option value="">--Select an Establishment--</option>
+              </select>
+            </div>
+            
+      
+            <ul>
+              <li><a href="#" id="EstabView">Etablissements</a></li>
+              <li class="user"><%= user.name %></li>
+              <li><a href="/users/logout"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
+              </li>
+            </ul>
+          </nav>
+          <div id="viewDiv"></div>
+          <div class="buildings">
+            <div class="navigation">
+              <button id="plus" style="display: none;">+</button>
+              <button id="minus" style="display: none;">-</button>
+            </div>
+            
+            <div id="details" class="details">
         
-  
-        <ul>
-          <li><a href="#" id="EstabView">Etablissements</a></li>
-          <li class="user"><%= user.name %></li>
-          <li><a href="/users/logout"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
-          </li>
-        </ul>
-      </nav>
-      <div id="viewDiv"></div>
-      <div class="buildings">
-        <div class="navigation">
-          <button id="plus" style="display: none;">+</button>
-          <button id="minus" style="display: none;">-</button>
-        </div>
-        
-        <div id="details" class="details">
+            </div>
+          </div>
     
         </div>
       </div>
-
-    </div>
+    </section>
+    <script>
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+      arrow[i].addEventListener("click", (e)=>{
+     let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+     arrowParent.classList.toggle("showMenu");
+      });
+    }
+    // let sidebar = document.querySelector(".sidebar");
+    // let sidebarBtn = document.querySelector(".bx-menu");
+    // console.log(sidebarBtn);
+    // sidebarBtn.addEventListener("click", ()=>{
+    //   sidebar.classList.toggle("close");
+    // });
+    </script>
+    
     
     
     

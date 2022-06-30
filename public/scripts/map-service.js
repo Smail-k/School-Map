@@ -102,7 +102,7 @@ function addMarker(graphicsLayer,place,Graphic){
 
 
 
-    function detailInfo(graphicsLayer,view,Graphic){
+function detailInfo(graphicsLayer,view,Graphic){
     view.on("click", function (event) {
     view.hitTest(event).then(function (response) {
     if (response.results.length) {
@@ -123,7 +123,6 @@ function addMarker(graphicsLayer,place,Graphic){
       return
     }else if(graphicsLayer.graphics.length!=2){
       removeMarker(graphicsLayer)
-      w3_open();
       return;
     }
 
@@ -152,13 +151,19 @@ function addMarker(graphicsLayer,place,Graphic){
             
         }
     };
-    w3_open();
-
+    openSideBar();
+    
     }                
     });
     });
     }
 
+function openSideBar(){
+  let sidebar = document.querySelector(".sidebar");
+    if(sidebar.classList.contains("close")){
+      sidebar.classList.remove("close");
+    }
+}
 function zoomOn(view){
   require(["dojo/dom", "dojo/on", "dojo/domReady!"],
     function(dom, on){
@@ -252,4 +257,16 @@ function getPlacesByKeyword(keyword,graphicsLayer,Graphic,view) {
     }
     //view.center=[res[0].longitude,res[0].latitude];
 };
+let xhr2 = new XMLHttpRequest();
+    xhr2.open('get', '/building/keyword/'+keyword);
+      xhr2.send();
+    
+      xhr2.onload = function() {
+          res = JSON.parse(xhr2.response)
+          console.log(res);
+        for (i = 0; i < res.length; i++) {
+            addMarker(graphicsLayer,res[i],Graphic);   
+        }
+    };
+
 }
