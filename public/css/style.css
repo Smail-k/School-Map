@@ -351,7 +351,9 @@ input[type=button], input[type=submit], input[type=reset]  {
     margin: 15px;
     width: 80%;
   }
-  
+  input[type=submit]:hover{
+    background-color: rgb(85, 247, 85);
+  }
   
   
   input[type=text],input[type=password] {
@@ -380,8 +382,8 @@ input[type=button], input[type=submit], input[type=reset]  {
   
   
   .userImage{
-      height: 100px;
-      width: 100px;
+      height: 150px;
+      width: 400px;
       border-radius: 10px;
   }
 
@@ -392,7 +394,8 @@ input[type=button], input[type=submit], input[type=reset]  {
     justify-content: center;
     min-height: 100%;
     padding: 20px;
-    margin-top: 150px;
+    margin-top: 110px;
+    opacity: 0.9;
   }
   
   #formContent {
@@ -408,15 +411,19 @@ input[type=button], input[type=submit], input[type=reset]  {
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     text-align: center;
   }
-  
+  #formFooter{
+    margin-bottom: 10px;
+  }
 
   h2.inactive {
     color: #cccccc;
+    
   }
   
   h2.active {
-    color: #0d0d0d;
+    color: #1c406f;
     margin-bottom: 20px;
+    text-shadow: 1px 1px 1px rgb(81, 109, 154);
   }
 .error{
     color: red;
