@@ -21,7 +21,16 @@ const UserSchema = new Schema({
     password : {
         type : String,
         required : true
-    }
+    },
+    role : {
+        type : String,
+        required : true
+    },
+    establishment : {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Establishment'
+    }    
 },{timestamps : true})
 
 UserSchema.pre('save',async function(next){

@@ -23,7 +23,9 @@ const addUser = (req,res)=>{
         name : req.body.name,
         email : req.body.email ,
         username : req.body.username,
-        password : req.body.password
+        password : req.body.password,
+        role : req.body.role,
+        establishment : "62b447937e035e19280a00de"
     }); 
     user.save().then(()=>{
         const token = createToken(user._id);
@@ -44,7 +46,7 @@ const checkUser= async (req,res) => {
         const user = await User.login(emailUser,passwordUser); 
         const token =createToken(user._id);
         res.cookie("jwt",token,{httpOnly : true,maxAge : maxAge*1000});
-        res.status(200).json({user : user._id}); 
+        res.status(200).json({user : user}); 
     } catch (error) {
         //console.log(error);
         res.status(401).json(errorHandler(error));

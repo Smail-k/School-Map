@@ -58,6 +58,8 @@
             Emailerror.textContent=data.email;
             pwdError.textContent=data.password;
             if(data.user){
+                console.log(data.user._id+"////")
+                window.localStorage.setItem("userInfo",JSON.stringify(data.user))
                 location.assign("/establishment/establishments");
             }  
         } catch (error) {

@@ -7,7 +7,7 @@ const placeRouter = require("./routes/PlaceRoute");
 const buildingRouter = require("./routes/BuildingRoute");
 const userRouter = require("./routes/UserRoute");
 const middlewares = require("./middleware/authMiddleware");
-
+const path = require("path")
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -23,6 +23,7 @@ mongoose.connect(dbURI,{useNewUrlParser : true,useUnifiedTopology : true}).then(
     .catch((err)=>console.log(err)); 
 
 app.set("view engine","ejs");
+app.set('views', path.join(__dirname, 'views'));
 
 //middlware
 app.use(express.static('public'));

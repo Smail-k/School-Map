@@ -48,7 +48,7 @@
 
         '<% for(var i=0;i<places.length;i++){ %>'
             var place = {
-                id : '<%-places[i]._id%>',
+                id : '<%-places[i].id%>',
                 name : '<%-places[i].name%>',
                 longitude : '<%-places[i].longitude%>',
                 latitude : '<%-places[i].latitude%>',
@@ -78,7 +78,7 @@
         for (let i = 0; i < links.length; i++) {
           links[i].addEventListener('click',()=>{
             console.log(links[i].classList[0]+"------------")
-            getPlacesByKeyword(links[i].classList[0],graphicsLayer,Graphic,view)
+            getPlacesByKeyword(links[i].classList[0],"<%-user.establishment%>",graphicsLayer,Graphic,view)
           })
           
         }
@@ -139,7 +139,27 @@
             <li><a class="etage" href="#">Immeubles C</a></li>
           </ul>
         </li>
-        
+        <% if(user.role=="chef") { %>
+        <li>
+          <a href="/place/add" class="station">
+            <i class='fas fa-bus-alt'></i>
+            <span class="link_name">Ajouter un emplacement</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="station link_name" href="/place/add">Ajouter un emplacement</a></li>
+          </ul>
+        </li>
+        <%}%>
+        <% if(user.role=="chef") { %>
+        <li id="delete" >
+          <a href="/place/delete" class="station" id="mylink">
+            <i class='fas fa-bus-alt'></i>
+            <span class="link_name">Supprimer un emplacement</span>
+          </a>
+          
+        </li>
+        <%}%>
+
       <!-- <div class="profile-details">
         <div class="profile-content">
           <img src="image/profile.jpg" alt="profileImg">
@@ -161,16 +181,16 @@
             <!-- <i class='bx bx-menu' ></i> -->
             <h3>School Map</h3>
             
-            <div>
+            <!-- <div>
               <label for="estab">Establishment : </label>
               <select name="estab" id="estab">
                 <option value="">--Select an Establishment--</option>
               </select>
             </div>
-            
+             -->
       
             <ul>
-              <li><a href="#" id="EstabView">Etablissements</a></li>
+              <!-- <li><a href="#" id="EstabView">Etablissements</a></li> -->
               <li class="user"><%= user.name %></li>
               <li><a href="/users/logout"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
               </li>

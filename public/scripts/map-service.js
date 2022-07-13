@@ -18,7 +18,7 @@ function addMarker(graphicsLayer,place,Graphic){
         geometry: point,
         symbol: symbol,
         attributes : {
-          id : place.id,
+          id : place.id || place._id,
           name : place.name,
           description : place.description,
           image : place.image,
@@ -29,7 +29,7 @@ function addMarker(graphicsLayer,place,Graphic){
         geometry: point,
         symbol: symbol,
         attributes : {
-          id : place.id,
+          id : place.id || place._id,
           name : place.name,
           description : place.description,
           image : place.image,
@@ -82,12 +82,19 @@ function addMarker(graphicsLayer,place,Graphic){
         return result.graphic.layer === graphicsLayer;
       })[0].graphic;
       
-
+      var link = document.getElementById("mylink");
+      if(link != null && graphic.attributes.floors == undefined)
+        link.setAttribute('href', "/place/delete/"+graphic.attributes.id);
+      else if(link != null && graphic.attributes.floors != undefined) {
+        link.setAttribute('href', "/building/delete/"+graphic.attributes.id);
+      }
+      
 
       view.popup.open({
         title : graphic.attributes.name,
         location: graphic.geometry,
-        content : "<h4>"+ graphic.attributes.description+"</h4><img src='https://school-map.herokuapp.com/"+graphic.attributes.image+"' alt='no image' style='width : 200px; height : 100px;'></img>",
+        content : "<h4>"+ graphic.attributes.description+"</h4>"+
+        "<img src='https://school-map.herokuapp.com/"+graphic.attributes.image+"' alt='no image' style='width : 200px; height : 100px;'></img>"
       });
       //console.log(graphic.attributes.floors.length+"---")
       if(graphic.attributes.floors == undefined){
@@ -121,11 +128,14 @@ function detailInfo(graphicsLayer,view,Graphic){
     }
     if(graphic.attributes.id == undefined){
       return
-    }else if(graphicsLayer.graphics.length!=2){
+    }else if(graphicsLayer.graphics.length!=2 && graphicsLayer.graphics.floors != undefined){
       removeMarker(graphicsLayer)
       return;
     }
-
+    if(JSON.parse(window.localStorage.getItem("userInfo")).establishment != graphic.attributes.id){
+      return;
+    }
+    
     let xhr = new XMLHttpRequest();
       xhr.open('get', '/place/'+graphic.attributes.id);
       xhr.send();
@@ -134,6 +144,8 @@ function detailInfo(graphicsLayer,view,Graphic){
           let res = JSON.parse(xhr.response)
           console.log(res);
         for (let i = 0; i < res.length; i++) {
+            //res[i].description +="<br/><a href='/place/delete/"+res[i].id+"'>Supprimer</a>";
+            //console.log(res[i]._id+"---------------------------------------------------")
             addMarker(graphicsLayer,res[i],Graphic);   
         }
     };
@@ -146,7 +158,7 @@ function detailInfo(graphicsLayer,view,Graphic){
           res = JSON.parse(xhr2.response)
           console.log(res);
         for (i = 0; i < res.length; i++) {
-            res[i].description ="nombre d'etages : "+ res[i].floors.length ; 
+            res[i].description ="nombre d'etages : "+ res[i].floors.length;
             addMarker(graphicsLayer,res[i],Graphic);   
             
         }
@@ -243,10 +255,10 @@ function update(res,counter) {
           details.innerHTML = result;
 }
 
-function getPlacesByKeyword(keyword,graphicsLayer,Graphic,view) {
+function getPlacesByKeyword(keyword,estab,graphicsLayer,Graphic,view) {
   removeMarker(graphicsLayer)
   let xhr = new XMLHttpRequest();
-  xhr.open('get', '/place/keyword/'+keyword);
+  xhr.open('get', '/place/keyword/'+keyword+'/'+estab);
   xhr.send();
 
   xhr.onload = function() {
@@ -258,7 +270,7 @@ function getPlacesByKeyword(keyword,graphicsLayer,Graphic,view) {
     //view.center=[res[0].longitude,res[0].latitude];
 };
 let xhr2 = new XMLHttpRequest();
-    xhr2.open('get', '/building/keyword/'+keyword);
+    xhr2.open('get', '/building/keyword/'+keyword+'/'+estab);
       xhr2.send();
     
       xhr2.onload = function() {

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/style.css">
+      </head>
+    <body style="background-image: url(/bg.jpeg);">
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+          <h2 class="active">Ajouter un emplacement</h2>
+          
+        <form action="/place/addPlace" method="POST" enctype="multipart/form-data">
+            <input type="text" id="title" name="title" placeholder="titre" required>
+            <input type="text" id="longitude" name="longitude" placeholder="longitude (ex:-33.22245)" required>
+            <input type="text" id="latitude" name="latitude" placeholder="latitude" required>
+            <!-- <input type="file" name="marker">
+            <input type="file" name="image"> -->
+            <input type="text" name="etab" value="<%=user.establishment%>" style="display: none;">
+            <textarea name="description" id="description" placeholder="Description ..." rows="4"></textarea>
+            <select name="type" id="type" onchange="loadInputs(this);">
+                <option value="place">Place (ex : parking,station bus,bibliotheque...)</option>
+                <option value="batiment">Batiment</option>
+                <option value="etab">Etablissement</option>
+            </select>
+            <div class="fileInput">
+                 <label for="icon">Map Icon : </label>
+                <input type="file" name="marker" id="icon" placeholder="marker icon">
+            </div>
+            <div>
+                <label for="imageDesc">Image descriptive : </label>
+                <input type="file" name="image" id="imageDesc" placeholder="image description">
+            </div>
+            
+            <div class="controls">
+                <a href="#valider" id="add_more_fields" style="display: none;"><i class="fa fa-plus"></i>Ajouter Etage</a>
+                <a href="#valider" id="remove_fields" style="display: none;"><i class="fa fa-plus"></i>Supprimer Etage</a>
+            </div>
+            
+            <div id="target">
+
+            </div>
+            <input type="text" name="floorsCount" id="count" style="display: none;">
+            <input type="submit" class="fadeIn fourth" id="valider" value="Valider">
+        </form>
+      
+          
+      
+        </div>
+      </div>
+      <script>
+        function loadInputs(select) {
+            if(select.value=="batiment"){
+                document.getElementById('add_more_fields').style.display ="flex";
+                document.getElementById('remove_fields').style.display ="flex";
+            }else {
+                document.getElementById('add_more_fields').style.display ="none";
+                document.getElementById('remove_fields').style.display ="none";
+            }
+        }
+
+        var survey_options = document.getElementById('target');
+        var add_more_fields = document.getElementById('add_more_fields');
+        var remove_fields = document.getElementById('remove_fields');
+        var i =1;
+        add_more_fields.onclick = function(){
+            var newField = document.createElement('input');
+            newField.setAttribute('type','text');
+            newField.setAttribute('name','floors[]');
+            newField.setAttribute('placeholder','nombre de places');
+            survey_options.appendChild(newField);
+            i++;
+            var newField2 = document.createElement('input');
+            newField2.setAttribute('type','text');
+            newField2.setAttribute('name','floors[]');
+            newField2.setAttribute('placeholder','description');
+            survey_options.appendChild(newField2); 
+            document.getElementById("count").value = i;
+            i++;
+        }
+
+        remove_fields.onclick = function(){
+        var input_tags = survey_options.getElementsByTagName('input');
+        if(input_tags.length > 0) {
+            survey_options.removeChild(input_tags[(input_tags.length) - 1]);
+            survey_options.removeChild(input_tags[(input_tags.length) - 1]);
+            i-=2;
+            document.getElementById("count").value = i;
+        }
+        }
+      </script>
+</body>
+</html>
