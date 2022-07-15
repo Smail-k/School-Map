@@ -41,7 +41,6 @@ const addPlace = (req,res)=>{
             res.json("error adding this place");
         })
     }else if(req.body.type == "batiment"){
-        //res.json(req.body.floorsCount+"----");
         let floorsCount = req.body.floorsCount;
         let floors = [];
         let j=0;
@@ -53,8 +52,6 @@ const addPlace = (req,res)=>{
             i++;
             j++;
         }
-        //res.json(floors[1].description+"----")
-        console.log(req.files);
         let building = new Building({
             name : req.body.title, 
             marker : req.files.marker[0].originalname,
@@ -74,7 +71,7 @@ const addPlace = (req,res)=>{
 
     }
  }
- const remove = (req,res)=>{
+const remove = (req,res)=>{
     console.log(req.params.id+"******")
     Place.findByIdAndRemove(req.params.id).then(()=>{
         res.redirect("/establishment/establishments");
@@ -82,11 +79,41 @@ const addPlace = (req,res)=>{
         res.json("error adding this place");
     })
 }
+const edit = (req,res)=>{
+    console.log(req.params.id+"******")
+    Place.findOne({ _id : req.params.id }).then((result)=>{
+        if(result == undefined)
+            res.redirect("/establishment/establishments");
+        else
+            res.render("ModifyMarker",{place : result })
+    }).catch((err)=>{
+        res.json("error adding this place");
+    })
+}
+const editPlace = async (req,res)=>{
+    let p = await Place.findOne({ _id : req.params.id });
+    p.name = req.body.title;
+    if(req.files.marker)
+        p.marker = req.files.marker[0].originalname;
+    if(req.files.image)
+        p.image = req.files.image[0].originalname;
+    p.description = req.body.description;
+    p.longitude = req.body.longitude;
+    p.latitude = req.body.latitude;
+    p.establishment = req.body.etab;
 
+    p.save().then(()=>{
+        res.redirect("/establishment/establishments");
+    }).catch(()=>{
+        res.json("error occured while trying to modify this place , try again later !")
+    })
+}
 module.exports = {
     PlacesByEstab,
     PlacesByKeyword,
     add,
-    addPlace // post action
-    ,remove
+    addPlace, // post action
+    remove,
+    edit,
+    editPlace
 }

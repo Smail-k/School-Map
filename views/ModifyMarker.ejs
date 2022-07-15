@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/style.css">
+      </head>
+    <body style="background-image: url(/bg.jpeg);">
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+          <h2 class="active">modifier un emplacement</h2>
+          
+        <form action="/place/edit/<%-place._id%>" method="POST" enctype="multipart/form-data">
+            <input type="text" id="title" name="title" placeholder="titre" value="<%-place.name%>" required>
+            <input type="text" id="longitude" name="longitude" placeholder="longitude (ex:-5.22245)" value="<%-place.longitude%>" required>
+            <input type="text" id="latitude" name="latitude" placeholder="latitude" value="<%-place.latitude%>" required>
+          
+            <input type="text" name="etab" value="<%=user.establishment%>" style="display: none;">
+            <textarea name="description" id="description" placeholder="Description ..." rows="4" required><%-place.description%></textarea>
+            
+            <%if(place.floors){ %>
+                <select name="type" id="type">
+                    <option value="batiment">Batiment</option>
+                </select>
+            <%} else {%>
+                <select name="type" id="type">
+                    <option value="place">Place</option>
+                </select>
+            <%}%>
+            <div class="fileInput">
+                 <label for="icon">Map Icon : </label>
+                <input type="file" name="marker" id="icon" placeholder="marker icon">
+            </div>
+            <div>
+                <label for="imageDesc">Image descriptive : </label>
+                <input type="file" name="image" id="imageDesc" placeholder="image description">
+            </div>
+            
+            <input type="submit" class="fadeIn fourth" id="valider" value="Modifier">
+        </form>
+      
+          
+      
+        </div>
+      </div>
+      
+</body>
+</html>

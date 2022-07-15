@@ -142,19 +142,27 @@
         <% if(user.role=="chef") { %>
         <li>
           <a href="/place/add" class="station">
-            <i class='fas fa-bus-alt'></i>
+            <i class='fas fa-clipboard'></i>
             <span class="link_name">Ajouter un emplacement</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="station link_name" href="/place/add">Ajouter un emplacement</a></li>
+            <li>            <i class='fas fa-clipboard'></i>
+
+              <a class="station link_name" href="/place/add">Ajouter un emplacement</a></li>
           </ul>
         </li>
-        <%}%>
-        <% if(user.role=="chef") { %>
+        
         <li id="delete" >
           <a href="/place/delete" class="station" id="mylink">
-            <i class='fas fa-bus-alt'></i>
+            <i class='fas fa-trash-alt'></i>
             <span class="link_name">Supprimer un emplacement</span>
+          </a>
+          
+        </li>
+        <li id="edit" >
+          <a href="/place/edit" class="station" id="Editlink">
+            <i class='fas fa-edit'></i>
+            <span class="link_name">Modifier cet emplacement</span>
           </a>
           
         </li>
@@ -179,7 +187,7 @@
         <div id="">
           <nav>
             <!-- <i class='bx bx-menu' ></i> -->
-            <h3>School Map</h3>
+            <h4>School Map</h4>
             
             <!-- <div>
               <label for="estab">Establishment : </label>

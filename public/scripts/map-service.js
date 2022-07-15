@@ -82,13 +82,21 @@ function addMarker(graphicsLayer,place,Graphic){
         return result.graphic.layer === graphicsLayer;
       })[0].graphic;
       
-      var link = document.getElementById("mylink");
+
+      let link = document.getElementById("mylink");
       if(link != null && graphic.attributes.floors == undefined)
         link.setAttribute('href', "/place/delete/"+graphic.attributes.id);
       else if(link != null && graphic.attributes.floors != undefined) {
         link.setAttribute('href', "/building/delete/"+graphic.attributes.id);
       }
-      
+      let link2 = document.getElementById("Editlink");
+      if(link2 != null && graphic.attributes.floors == undefined){
+        link2.setAttribute('href', "/place/edit/"+graphic.attributes.id);
+      }
+      else if(link2 != null && graphic.attributes.floors != undefined) {
+        link2.setAttribute('href', "/building/edit/"+graphic.attributes.id);
+      }
+
 
       view.popup.open({
         title : graphic.attributes.name,
@@ -132,7 +140,8 @@ function detailInfo(graphicsLayer,view,Graphic){
       removeMarker(graphicsLayer)
       return;
     }
-    if(JSON.parse(window.localStorage.getItem("userInfo")).establishment != graphic.attributes.id){
+    let user =  JSON.parse(window.localStorage.getItem("userInfo"));
+    if(user.role !="presidence" && user.establishment != graphic.attributes.id){
       return;
     }
     
