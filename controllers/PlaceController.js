@@ -60,7 +60,7 @@ const addPlace = (req,res)=>{
             longitude : req.body.longitude,
             latitude : req.body.latitude,
             floors : floors,
-            establishment : "62b447937e035e19280a00de"
+            establishment : req.body.etab
         }); 
         building.save().then(()=>{
             res.render("CreateMarker");

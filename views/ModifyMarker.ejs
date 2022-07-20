@@ -8,9 +8,16 @@
     <div class="wrapper fadeInDown">
         <div id="formContent">
           <!-- Tabs Titles -->
+          <a href="/establishment/establishments" class="previous round">&#8249;</a>
           <h2 class="active">modifier un emplacement</h2>
-          
-        <form action="/place/edit/<%-place._id%>" method="POST" enctype="multipart/form-data">
+        <%if(place.floors == undefined){ %> 
+            <%if(place.establishment == undefined){ %>
+                <form action="/establishment/edit/<%-place._id%>" method="POST" enctype="multipart/form-data">
+            <%}else {%>        
+            <form action="/place/edit/<%-place._id%>" method="POST" enctype="multipart/form-data">
+        <%}}else {%>
+            <form action="/building/edit/<%-place._id%>" method="POST" enctype="multipart/form-data">
+        <%}%>
             <input type="text" id="title" name="title" placeholder="titre" value="<%-place.name%>" required>
             <input type="text" id="longitude" name="longitude" placeholder="longitude (ex:-5.22245)" value="<%-place.longitude%>" required>
             <input type="text" id="latitude" name="latitude" placeholder="latitude" value="<%-place.latitude%>" required>
@@ -22,11 +29,15 @@
                 <select name="type" id="type">
                     <option value="batiment">Batiment</option>
                 </select>
-            <%} else {%>
+            <%} else if(place.establishment != undefined){%>
                 <select name="type" id="type">
                     <option value="place">Place</option>
                 </select>
-            <%}%>
+            <%}else {%>
+                <select name="type" id="type">
+                    <option value="estab">Etablissement</option>
+                </select>
+            <%}%>    
             <div class="fileInput">
                  <label for="icon">Map Icon : </label>
                 <input type="file" name="marker" id="icon" placeholder="marker icon">
@@ -35,7 +46,22 @@
                 <label for="imageDesc">Image descriptive : </label>
                 <input type="file" name="image" id="imageDesc" placeholder="image description">
             </div>
+            <%if(place.floors != undefined){ %>
+            <div class="controls">
+                <a href="#valider" id="add_more_fields"><i class="fa fa-plus"></i>Ajouter Etage</a>
+                <a href="#valider" id="remove_fields"><i class="fa fa-plus"></i>Supprimer Etage</a>
+            </div>
+            <div id="target">
+                <% let j=0;%>
+            <% for(let i=0;i<place.floors.length;i++){%>
+                <input type="text" name="floors[<%-j%>]" value="<%=place.floors[i].classroomsCount%>" >
+                <input type="text" name="floors[<%-j+1%>]" value="<%=place.floors[i].description%>" >
+                <% j+=2%>
+            <%}%></div><%}%>
             
+
+            
+            <input type="text" name="floorsCount" id="count" style="display: none;">
             <input type="submit" class="fadeIn fourth" id="valider" value="Modifier">
         </form>
       
@@ -43,6 +69,36 @@
       
         </div>
       </div>
-      
+    <script>
+        var survey_options = document.getElementById('target');
+        var add_more_fields = document.getElementById('add_more_fields');
+        var remove_fields = document.getElementById('remove_fields');
+        var i =1;
+        add_more_fields.onclick = function(){
+            var newField = document.createElement('input');
+            newField.setAttribute('type','text');
+            newField.setAttribute('name','floors[]');
+            newField.setAttribute('placeholder','nombre de classes');
+            survey_options.appendChild(newField);
+            i++;
+            var newField2 = document.createElement('input');
+            newField2.setAttribute('type','text');
+            newField2.setAttribute('name','floors[]');
+            newField2.setAttribute('placeholder','description');
+            survey_options.appendChild(newField2); 
+            document.getElementById("count").value = survey_options.children.length / 2;
+            i++;
+        }
+
+        remove_fields.onclick = function(){
+        var input_tags = survey_options.getElementsByTagName('input');
+        if(input_tags.length > 0) {
+            survey_options.removeChild(input_tags[(input_tags.length) - 1]);
+            survey_options.removeChild(input_tags[(input_tags.length) - 1]);
+            i-=2;
+            document.getElementById("count").value = survey_options.children.length / 2;
+        }
+        }
+    </script>
 </body>
 </html>

@@ -22,6 +22,7 @@ function addMarker(graphicsLayer,place,Graphic){
           name : place.name,
           description : place.description,
           image : place.image,
+          estab : place.establishment == undefined ? true : false
         }
         });
     }else {
@@ -84,13 +85,21 @@ function addMarker(graphicsLayer,place,Graphic){
       
 
       let link = document.getElementById("mylink");
-      if(link != null && graphic.attributes.floors == undefined)
+      if(graphic.attributes.estab){
+        link.setAttribute('href', "/establishment/delete/"+graphic.attributes.id);
+      }
+      else if(link != null && graphic.attributes.floors == undefined)
         link.setAttribute('href', "/place/delete/"+graphic.attributes.id);
       else if(link != null && graphic.attributes.floors != undefined) {
         link.setAttribute('href', "/building/delete/"+graphic.attributes.id);
       }
       let link2 = document.getElementById("Editlink");
-      if(link2 != null && graphic.attributes.floors == undefined){
+      if(graphic.attributes.estab){
+        link2.setAttribute('href', "/establishment/edit/"+graphic.attributes.id);
+        let addLink = document.getElementById("addLink");
+        addLink.setAttribute('href', "/establishment/add/");
+      }
+      else if(link2 != null && graphic.attributes.floors == undefined){
         link2.setAttribute('href', "/place/edit/"+graphic.attributes.id);
       }
       else if(link2 != null && graphic.attributes.floors != undefined) {
@@ -119,6 +128,9 @@ function addMarker(graphicsLayer,place,Graphic){
 
 function detailInfo(graphicsLayer,view,Graphic){
     view.on("click", function (event) {
+      view.popup.location = event.mapPoint;
+      view.popup.content = "latitude : "+event.mapPoint.latitude+"- longitude : "+event.mapPoint.longitude;
+      view.popup.visible = true;
     view.hitTest(event).then(function (response) {
     if (response.results.length) {
     let graphic = response.results.filter(function (result) {
@@ -126,7 +138,10 @@ function detailInfo(graphicsLayer,view,Graphic){
       return result.graphic.layer === graphicsLayer;
     })[0].graphic;
     
-    //console.log(graphic.attributes.id+"------")
+    let link = document.getElementById("Editlink");
+    link.setAttribute('href', "/establishment/edit/"+graphic.attributes.id);
+
+
     if(graphic.attributes.floors != undefined){
       document.querySelector(".buildings").style.display = "block";
       loadsFloors(graphic.attributes)
@@ -142,6 +157,7 @@ function detailInfo(graphicsLayer,view,Graphic){
     }
     let user =  JSON.parse(window.localStorage.getItem("userInfo"));
     if(user.role !="presidence" && user.establishment != graphic.attributes.id){
+      closeSideBar()
       return;
     }
     
@@ -153,8 +169,7 @@ function detailInfo(graphicsLayer,view,Graphic){
           let res = JSON.parse(xhr.response)
           console.log(res);
         for (let i = 0; i < res.length; i++) {
-            //res[i].description +="<br/><a href='/place/delete/"+res[i].id+"'>Supprimer</a>";
-            //console.log(res[i]._id+"---------------------------------------------------")
+            
             addMarker(graphicsLayer,res[i],Graphic);   
         }
     };
@@ -174,7 +189,9 @@ function detailInfo(graphicsLayer,view,Graphic){
     };
     openSideBar();
     
-    }                
+    }
+      
+                   
     });
     });
     }
@@ -183,6 +200,12 @@ function openSideBar(){
   let sidebar = document.querySelector(".sidebar");
     if(sidebar.classList.contains("close")){
       sidebar.classList.remove("close");
+    }
+}
+function closeSideBar(){
+  let sidebar = document.querySelector(".sidebar");
+    if(!sidebar.classList.contains("close")){
+      sidebar.classList.add("close");
     }
 }
 function zoomOn(view){
@@ -196,9 +219,7 @@ function zoomOn(view){
         view.center = [dom.byId("estab").value.split(";")[0],dom.byId("estab").value.split(";")[1]];
         view.zoom=17;
       });
-      on(dom.byId("EstabView"), "click", function(){
-          view.zoom=15;
-      });
+      
     });
 }
 function loadEstab(){

@@ -25,7 +25,7 @@ const addUser = (req,res)=>{
         username : req.body.username,
         password : req.body.password,
         role : req.body.role,
-        establishment : "62b447937e035e19280a00de"
+        establishment : req.body.estab
     }); 
     user.save().then(()=>{
         const token = createToken(user._id);

@@ -139,9 +139,9 @@
             <li><a class="etage" href="#">Immeubles C</a></li>
           </ul>
         </li>
-        <% if(user.role=="chef") { %>
+        <% if(user.role=="chef" || user.role=="presidence") { %>
         <li>
-          <a href="/place/add" class="station">
+          <a href="/place/add" class="station" id="addLink">
             <i class='fas fa-clipboard'></i>
             <span class="link_name">Ajouter un emplacement</span>
           </a>
@@ -155,7 +155,7 @@
         <li id="delete" >
           <a href="/place/delete" class="station" id="mylink">
             <i class='fas fa-trash-alt'></i>
-            <span class="link_name">Supprimer un emplacement</span>
+            <span class="link_name">Supprimer cet emplacement</span>
           </a>
           
         </li>
@@ -166,7 +166,15 @@
           </a>
           
         </li>
-        <%}%>
+        <% if(user.role=="presidence") { %>
+        <li id="edit" >
+          <a href="/users/register/" class="station" id="Editlink">
+            <i class='fas fa-edit'></i>
+            <span class="link_name">Ajouter un Compte</span>
+          </a>
+          
+        </li>
+        <%}}%>
 
       <!-- <div class="profile-details">
         <div class="profile-content">
@@ -188,19 +196,18 @@
           <nav>
             <!-- <i class='bx bx-menu' ></i> -->
             <h4>School Map</h4>
-            
-            <!-- <div>
-              <label for="estab">Establishment : </label>
-              <select name="estab" id="estab">
-                <option value="">--Select an Establishment--</option>
-              </select>
-            </div>
-             -->
+            <% if(user.role=="presidence") { %>
+              <div>
+                <select name="estab" id="estab">
+                  <option value="">--Select an Establishment--</option>
+                </select>
+              </div>
+            <%}%>
       
             <ul>
               <!-- <li><a href="#" id="EstabView">Etablissements</a></li> -->
               <li class="user"><%= user.name %></li>
-              <li><a href="/users/logout"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
+              <li><a href="/users/logout" onclick="logOut();"><i class="fa fa-sign-out" style="font-size:36px" ></i></a></i>
               </li>
             </ul>
           </nav>
@@ -227,6 +234,7 @@
      arrowParent.classList.toggle("showMenu");
       });
     }
+    
     // let sidebar = document.querySelector(".sidebar");
     // let sidebarBtn = document.querySelector(".bx-menu");
     // console.log(sidebarBtn);

@@ -8,6 +8,7 @@
     <div class="wrapper fadeInDown">
         <div id="formContent">
           <!-- Tabs Titles -->
+          <a href="/establishment/establishments" class="previous round">&#8249;</a>
           <h2 class="active">Creer un Compte</h2>
       
           <!-- Icon -->
@@ -17,7 +18,7 @@
       
           <!-- Login Form -->
         <form action="/users/register" method="POST">
-            <input type="text" id="name" name="name" placeholder="nom d'etudiant" required>
+            <input type="text" id="name" name="name" placeholder="nom" required>
             <input type="text" id="username" name="username" placeholder="Username" required>
             <input type="text" id="email" name="email" placeholder="Email" required>
             <input type="password" name="password" id="pwd" placeholder="mot de passe" required>
@@ -26,14 +27,27 @@
               <option value="patremoine">patremoine</option>
               <option value="presidence">presidence</option>
             </select>
+            <select name="estab" id="estab">
+            </select>
             <input type="submit" class="fadeIn fourth" value="Valider">
         </form>
-      
-          <div id="formFooter">
-            <a class="underlineHover" href="/users/login">vous avez deja un compte ?</a>
-          </div>
-      
+            
         </div>
       </div>
+      <script>
+        let xhr = new XMLHttpRequest();
+  xhr.open('get', '/establishment/establishmentsJson');
+  xhr.send();
+
+  xhr.onload = function() {
+      let res = JSON.parse(xhr.response)
+      console.log(res);
+    for (let i = 0; i < res.length; i++) {
+      document.getElementById("estab").innerHTML +="<option value='"+ res[i]._id+"'>"+res[i].name+"</option>";
+        
+    }
+    
+};
+      </script>
 </body>
 </html>

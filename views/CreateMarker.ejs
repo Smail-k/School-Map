@@ -8,9 +8,14 @@
     <div class="wrapper fadeInDown">
         <div id="formContent">
           <!-- Tabs Titles -->
-          <h2 class="active">Ajouter un emplacement</h2>
+            <a href="/establishment/establishments" class="previous round">&#8249;</a>
+            <h2 class="active">Ajouter un emplacement</h2>
           
-        <form action="/place/addPlace" method="POST" enctype="multipart/form-data">
+        <%if(type && type == "estab"){ %>
+            <form action="/establishment/add" method="POST" enctype="multipart/form-data">
+        <%}else {%>   
+            <form action="/place/addPlace" method="POST" enctype="multipart/form-data">
+        <%}%>  
             <input type="text" id="title" name="title" placeholder="titre" required>
             <input type="text" id="longitude" name="longitude" placeholder="longitude (ex:-33.22245)" required>
             <input type="text" id="latitude" name="latitude" placeholder="latitude" required>
@@ -18,11 +23,17 @@
             <input type="file" name="image"> -->
             <input type="text" name="etab" value="<%=user.establishment%>" style="display: none;">
             <textarea name="description" id="description" placeholder="Description ..." rows="4"></textarea>
-            <select name="type" id="type" onchange="loadInputs(this);">
-                <option value="place">Place (ex : parking,station bus,bibliotheque...)</option>
-                <option value="batiment">Batiment</option>
-                <option value="etab">Etablissement</option>
-            </select>
+            <%if(type && type == "estab"){ %>
+                <select name="type" id="type">
+                    <option value="estab">Etablissement</option>
+                </select>
+            <%}else {%>   
+                <select name="type" id="type" onchange="loadInputs(this);">
+                    <option value="place">Place (ex : parking,station bus,bibliotheque...)</option>
+                    <option value="batiment">Batiment</option>
+                </select>            
+            <%}%>  
+            
             <div class="fileInput">
                  <label for="icon">Map Icon : </label>
                 <input type="file" name="marker" id="icon" placeholder="marker icon">
@@ -67,7 +78,7 @@
             var newField = document.createElement('input');
             newField.setAttribute('type','text');
             newField.setAttribute('name','floors[]');
-            newField.setAttribute('placeholder','nombre de places');
+            newField.setAttribute('placeholder','nombre de classes');
             survey_options.appendChild(newField);
             i++;
             var newField2 = document.createElement('input');

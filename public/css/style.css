@@ -466,4 +466,18 @@ input[type=button], input[type=submit], input[type=reset]  {
     text-decoration: none;
     color: black;
   }
- 
+  .previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #6d6d6d;
+    color: black;
+  }
+  
+  .previous:hover {
+    background-color: rgb(201, 255, 209);
+    color: black;
+  }
+  .round {
+    border-radius: 50%;
+  }
