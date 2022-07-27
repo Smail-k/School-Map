@@ -46,7 +46,7 @@ const editBuilding = async (req,res)=>{
         }
         j+=2;
     }
-    console.log("--"+floorsCount)
+    console.log("-----------------------------------"+floorsCount)
     let p = await Building.findOne({ _id : req.params.id });
     p.name = req.body.title;
     if(req.files.marker)

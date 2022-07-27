@@ -33,7 +33,7 @@ const addUser = (req,res)=>{
         res.status(200).redirect("/users/login");
     }).catch((err)=>{
         let errors = errorHandler(err);
-        res.status(400).json(errorHandler(error));
+        res.status(400).json(errorHandler(err));
     })
 }
 

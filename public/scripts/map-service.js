@@ -85,8 +85,9 @@ function addMarker(graphicsLayer,place,Graphic){
       
 
       let link = document.getElementById("mylink");
-      if(graphic.attributes.estab){
+      if(link != null && graphic.attributes.estab){
         link.setAttribute('href', "/establishment/delete/"+graphic.attributes.id);
+        window.localStorage.setItem('estab',graphic.attributes.id)
       }
       else if(link != null && graphic.attributes.floors == undefined)
         link.setAttribute('href', "/place/delete/"+graphic.attributes.id);
@@ -94,10 +95,10 @@ function addMarker(graphicsLayer,place,Graphic){
         link.setAttribute('href', "/building/delete/"+graphic.attributes.id);
       }
       let link2 = document.getElementById("Editlink");
-      if(graphic.attributes.estab){
+      if(link2 != null && graphic.attributes.estab){
         link2.setAttribute('href', "/establishment/edit/"+graphic.attributes.id);
-        let addLink = document.getElementById("addLink");
-        addLink.setAttribute('href', "/establishment/add/");
+        // let addLink = document.getElementById("addLink");
+        // addLink.setAttribute('href', "/establishment/add/");
       }
       else if(link2 != null && graphic.attributes.floors == undefined){
         link2.setAttribute('href', "/place/edit/"+graphic.attributes.id);
@@ -111,7 +112,7 @@ function addMarker(graphicsLayer,place,Graphic){
         title : graphic.attributes.name,
         location: graphic.geometry,
         content : "<h4>"+ graphic.attributes.description+"</h4>"+
-        "<img src='https://school-map.herokuapp.com/"+graphic.attributes.image+"' alt='no image' style='width : 200px; height : 100px;'></img>"
+        "<img src='http://localhost:8080/"+graphic.attributes.image+"' alt='no image' style='width : 200px; height : 100px;'></img>"
       });
       //console.log(graphic.attributes.floors.length+"---")
       if(graphic.attributes.floors == undefined){
@@ -137,10 +138,11 @@ function detailInfo(graphicsLayer,view,Graphic){
       // check if the graphic belongs to the layer of interest
       return result.graphic.layer === graphicsLayer;
     })[0].graphic;
-    
-    let link = document.getElementById("Editlink");
-    link.setAttribute('href', "/establishment/edit/"+graphic.attributes.id);
+    window.localStorage.setItem('estab',graphic.attributes.id)
 
+    let link = document.getElementById("Editlink");
+    if(link != null)
+      link.setAttribute('href', "/establishment/edit/"+graphic.attributes.id);
 
     if(graphic.attributes.floors != undefined){
       document.querySelector(".buildings").style.display = "block";
@@ -287,18 +289,25 @@ function update(res,counter) {
 
 function getPlacesByKeyword(keyword,estab,graphicsLayer,Graphic,view) {
   removeMarker(graphicsLayer)
+  keyword = keyword.toLowerCase();
+  if(estab ==null)
+    estab = window.localStorage.getItem("estab");
+
   let xhr = new XMLHttpRequest();
   xhr.open('get', '/place/keyword/'+keyword+'/'+estab);
   xhr.send();
 
   xhr.onload = function() {
       let res = JSON.parse(xhr.response)
-      console.log(res);
     for (let i = 0; i < res.length; i++) {
        addMarker(graphicsLayer,res[i],Graphic)
     }
     //view.center=[res[0].longitude,res[0].latitude];
 };
+
+if(estab ==window.localStorage.getItem("estab") && keyword == "batiment")
+    keyword=" ";
+
 let xhr2 = new XMLHttpRequest();
     xhr2.open('get', '/building/keyword/'+keyword+'/'+estab);
       xhr2.send();
@@ -310,5 +319,4 @@ let xhr2 = new XMLHttpRequest();
             addMarker(graphicsLayer,res[i],Graphic);   
         }
     };
-
 }

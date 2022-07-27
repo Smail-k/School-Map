@@ -77,8 +77,10 @@
         let links = document.querySelectorAll("a");
         for (let i = 0; i < links.length; i++) {
           links[i].addEventListener('click',()=>{
-            console.log(links[i].classList[0]+"------------")
-            getPlacesByKeyword(links[i].classList[0],"<%-user.establishment%>",graphicsLayer,Graphic,view)
+            if("<%-user.role%>"=="presidence")
+              getPlacesByKeyword(links[i].classList[0],null,graphicsLayer,Graphic,view)
+            else 
+              getPlacesByKeyword(links[i].classList[0],"<%-user.establishment%>",graphicsLayer,Graphic,view)
           })
           
         }
@@ -112,6 +114,7 @@
             <li><a  href="#" class="terrain">Terrains</a></li>
             <li><a  href="#" class="toillete">Toilettes</a></li>
             <li><a  href="#" class="jardin">Jardin</a></li>
+            <li><a  href="#" class="parking">Parking</a></li>
           </ul>
         </li>
         <li>
@@ -125,21 +128,27 @@
         </li>
         
         <li>
-          <div class="iocn-link">
-            <a href="#">
+            <a href="#" class="batiment">
               <i class='fas fa-book-open'></i>
               <span class="link_name">Etudes</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-          </div>
-          <ul class="sub-menu">
-            <li><a class="etage link_name" href="#">Immeubles</a></li>
-            <li><a class="immeuble" href="#">Immeubles A</a></li>
-            <li><a class="etage" href="#">Immeubles B</a></li>
-            <li><a class="etage" href="#">Immeubles C</a></li>
-          </ul>
+            </a>          
         </li>
         <% if(user.role=="chef" || user.role=="presidence") { %>
+          <% if(user.role=="presidence") { %>
+            <li id="" >
+              <a href="/users/register/" class="station">
+                <i class='fas fa-edit'></i>
+                <span class="link_name">Ajouter un Compte</span>
+              </a>
+              
+            </li>
+            <li>
+              <a href="/establishment/add" class="station" id="addLink">
+                <i class='fas fa-clipboard'></i>
+                <span class="link_name">Ajouter un etablissement</span>
+              </a>
+            </li>
+            <%}else {%>
         <li>
           <a href="/place/add" class="station" id="addLink">
             <i class='fas fa-clipboard'></i>
@@ -151,7 +160,7 @@
               <a class="station link_name" href="/place/add">Ajouter un emplacement</a></li>
           </ul>
         </li>
-        
+        <%}%>
         <li id="delete" >
           <a href="/place/delete" class="station" id="mylink">
             <i class='fas fa-trash-alt'></i>
@@ -166,15 +175,7 @@
           </a>
           
         </li>
-        <% if(user.role=="presidence") { %>
-        <li id="edit" >
-          <a href="/users/register/" class="station" id="Editlink">
-            <i class='fas fa-edit'></i>
-            <span class="link_name">Ajouter un Compte</span>
-          </a>
-          
-        </li>
-        <%}}%>
+        <%}%>
 
       <!-- <div class="profile-details">
         <div class="profile-content">

@@ -70,6 +70,11 @@
         </div>
       </div>
     <script>
+        if(survey_options)
+            document.getElementById("count").value = survey_options.children.length / 2;
+        else 
+            document.getElementById("count").value ="<%-place.floors.length%>";
+
         var survey_options = document.getElementById('target');
         var add_more_fields = document.getElementById('add_more_fields');
         var remove_fields = document.getElementById('remove_fields');

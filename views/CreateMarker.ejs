@@ -11,7 +11,8 @@
             <a href="/establishment/establishments" class="previous round">&#8249;</a>
             <h2 class="active">Ajouter un emplacement</h2>
           
-        <%if(type && type == "estab"){ %>
+    
+        <% if(type == "estab"){ %>
             <form action="/establishment/add" method="POST" enctype="multipart/form-data">
         <%}else {%>   
             <form action="/place/addPlace" method="POST" enctype="multipart/form-data">
@@ -23,7 +24,7 @@
             <input type="file" name="image"> -->
             <input type="text" name="etab" value="<%=user.establishment%>" style="display: none;">
             <textarea name="description" id="description" placeholder="Description ..." rows="4"></textarea>
-            <%if(type && type == "estab"){ %>
+            <% if(type == "estab"){ %>
                 <select name="type" id="type">
                     <option value="estab">Etablissement</option>
                 </select>
