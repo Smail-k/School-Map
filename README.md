@@ -5,5 +5,5 @@ application with map API (ArcGis) , for the purpose helping new students to iden
 and also giving possiblity to the administration to make changes in the map , to be updated with school structure. 
 application developped with nodejs,express in backend , and for frontend html,css,js to make it simple. 
  
-to see a live demo here is the link : https://school-map.herokuapp.com
+
 hope you enjoy it !
